@@ -13,50 +13,30 @@ namespace GraspItEz.Controllers
     [Route("studySet")]
     public class StudySetController : ControllerBase
     {
-        private readonly IGraspItEzService _graspItEzService;
+        private readonly IStudySetsService _studySetsService;
         
-        public StudySetController(IGraspItEzService graspItEzService)
+        public StudySetController(IStudySetsService studySetsService)
         {
-            _graspItEzService = graspItEzService;
+            _studySetsService = studySetsService;
         }
-        [HttpGet]
+        [HttpGet("lastUsed")]
         public ActionResult<IEnumerable<StudySetHeadsDto>> GetToHomePage()
         {
-            var studySetsHead = _graspItEzService.GetStudySetsHeder();
+            var studySetsHead = _studySetsService.GetStudySetsHeder();
             return Ok(studySetsHead);
         }
-        [HttpGet("/all")]
+        [HttpGet("all")]
         public ActionResult<IEnumerable<StudySetHeadsDto>> GetAll()
         {
-            var studySetsHead = _graspItEzService.GetAllStudySets();
+            var studySetsHead = _studySetsService.GetAllStudySets();
             return Ok(studySetsHead);
         }
         [HttpGet("{id}")]
         public ActionResult<StudySetDto> Get([FromRoute] int id)
         {
-            var studySetsDto =  _graspItEzService.GetById(id);
+            var studySetsDto =  _studySetsService.GetById(id);
             if(studySetsDto == null) return NotFound();
             return Ok(studySetsDto);  
         }
-        [HttpGet("learn/start/{id}")]
-        public ActionResult<IEnumerable<QuestionDto>> LearnStart([FromRoute] int id)
-        {
-            var activeQueststion = _graspItEzService.StartLearn(id);
-            return Ok(activeQueststion);
-        }
-        [HttpPost("/learn/{id}")]
-        public ActionResult SaveProgress([FromRoute] int id, [FromBody] List<QuestionAnswer> answer)
-        {
-           _graspItEzService.EndOfRound(id, answer);
-            return Ok();
-        }
-        [HttpPost("/learn/restart/{id}")]
-        public ActionResult Restart([FromRoute] int id)
-        {
-            _graspItEzService.Reset(id);
-            return Ok();
-        }
-        
-
     }
 }
