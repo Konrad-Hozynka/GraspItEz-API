@@ -10,7 +10,8 @@ namespace GraspItEz
             CreateMap<StudySet, StudySetHeadsDto>();
             CreateMap<Question, QuestionDto>();
             CreateMap<StudySet, StudySetDto>();
-            
+            CreateMap<CreateStudySetDto, StudySet>();
+            CreateMap<QuestionDto, Question>();
         }
 
     }

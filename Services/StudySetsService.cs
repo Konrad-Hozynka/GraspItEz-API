@@ -10,6 +10,7 @@ namespace GraspItEz.Services
         public IEnumerable<StudySetHeadsDto> GetStudySetsHeder();
         public IEnumerable<StudySetHeadsDto> GetAllStudySets();
         public StudySetDto GetById(int id);
+        public int CreateStudySet(CreateStudySetDto dto);
     }
     public class StudySetsService : IStudySetsService
     {
@@ -45,7 +46,23 @@ namespace GraspItEz.Services
             var studySetsDto = _mapper.Map<StudySetDto>(studySet);
             return studySetsDto;
         }
-        
+        public int CreateStudySet(CreateStudySetDto dto)
+        {
+            var studySet = _mapper.Map<StudySet>(dto);
+            studySet.Progress = 0;
+            studySet.Count = studySet.Questions.Count;
+            foreach (var question in studySet.Questions) 
+            {
+                question.QuestStatus = 0;
+                question.DefinitionStatus = 0;
+                question.IsActive = false;
+                question.IsLearned = false;
+            }
+            _dbContext.StudySets .Add(studySet);
+            _dbContext.SaveChanges();
+            return studySet.Id;
+        }
+
 
     }
 }

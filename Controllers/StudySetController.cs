@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 namespace GraspItEz.Controllers
 {
     [ApiController]
-    [Route("studySet")]
+    [Route("study-set")]
     public class StudySetController : ControllerBase
     {
         private readonly IStudySetsService _studySetsService;
@@ -19,7 +19,7 @@ namespace GraspItEz.Controllers
         {
             _studySetsService = studySetsService;
         }
-        [HttpGet("lastUsed")]
+        [HttpGet("last-used")]
         public ActionResult<IEnumerable<StudySetHeadsDto>> GetToHomePage()
         {
             var studySetsHead = _studySetsService.GetStudySetsHeder();
@@ -37,6 +37,12 @@ namespace GraspItEz.Controllers
             var studySetsDto =  _studySetsService.GetById(id);
             if(studySetsDto == null) return NotFound();
             return Ok(studySetsDto);  
+        }
+        [HttpPost("create")]
+        public ActionResult Create([FromBody] CreateStudySetDto dto)
+        {
+           int id = _studySetsService.CreateStudySet(dto);
+            return Created($"/StudySet/{id}", null);
         }
     }
 }

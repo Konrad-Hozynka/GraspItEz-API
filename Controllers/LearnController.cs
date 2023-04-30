@@ -13,19 +13,19 @@ namespace GraspItEz.Controllers
         {
            _learnService = learnService;
         }
-        [HttpGet("questionSet")]
+        [HttpGet("question-set")]
         public ActionResult<IEnumerable<QuestionDto>> LearnStart([FromRoute] int id)
         {
             var activeQueststion = _learnService.StartLearn(id);
             return Ok(activeQueststion);
         }
-        [HttpPost("roundEnd")]
+        [HttpPost("round-end")]
         public ActionResult SaveProgress([FromRoute] int id, [FromBody] List<QuestionAnswer> answer)
         {
             _learnService.EndOfRound(id, answer);
             return Ok();
         }
-        [HttpPost("restart")]
+        [HttpGet("restart")]
         public ActionResult Restart([FromRoute] int id)
         {
             _learnService.Reset(id);
