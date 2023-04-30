@@ -11,6 +11,7 @@ namespace GraspItEz.Services
         public IEnumerable<StudySetHeadsDto> GetAllStudySets();
         public StudySetDto GetById(int id);
         public int CreateStudySet(CreateStudySetDto dto);
+        public bool DeleteStudySet(int id);
     }
     public class StudySetsService : IStudySetsService
     {
@@ -61,6 +62,16 @@ namespace GraspItEz.Services
             _dbContext.StudySets .Add(studySet);
             _dbContext.SaveChanges();
             return studySet.Id;
+        }
+        public bool DeleteStudySet(int id)
+        {
+            var studySet = _dbContext.StudySets
+                .Include(s => s.Questions)
+                .FirstOrDefault(s => s.Id == id);
+            if (studySet is null) return false;
+            _dbContext.StudySets.Remove(studySet);
+            _dbContext.SaveChanges ();
+            return true;
         }
 
 

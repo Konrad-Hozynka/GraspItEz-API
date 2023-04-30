@@ -44,5 +44,12 @@ namespace GraspItEz.Controllers
            int id = _studySetsService.CreateStudySet(dto);
             return Created($"/StudySet/{id}", null);
         }
+        [HttpDelete("delete/{id}")]
+        public ActionResult Delete([FromRoute] int id) 
+        {
+            bool isDeleted = _studySetsService.DeleteStudySet(id);
+            if (isDeleted) return NoContent();
+            return NotFound();
+        }
     }
 }
