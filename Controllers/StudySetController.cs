@@ -51,5 +51,12 @@ namespace GraspItEz.Controllers
             if (isDeleted) return NoContent();
             return NotFound();
         }
+        [HttpPut("update")]
+        public ActionResult Update([FromBody] UpdateStudySetDto Dto)
+        {
+            bool isUpdated = _studySetsService.UpdateStudySet(Dto);
+            if (!isUpdated) return NotFound();
+            return Ok();
+        }
     }
 }

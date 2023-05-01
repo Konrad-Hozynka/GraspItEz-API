@@ -98,7 +98,7 @@ namespace GraspItEz.Services
         public void SetProgress(int id)
         {
             var learned = ListOfQById(id);
-            foreach (var question in learned)
+            foreach (var question in learned.ToList())
             {
                 if (question.IsLearned == false)
                 {
