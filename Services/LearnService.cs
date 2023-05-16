@@ -16,11 +16,13 @@ namespace GraspItEz.Services
         private readonly GraspItEzContext _dbContext;
         private readonly IMapper _mapper;
         private readonly ILearnLogicService _learnLogicService;
-        public LearnService(GraspItEzContext dbContext, IMapper mapper, ILearnLogicService learnLogicService)
+        private readonly ILogger<LearnService> _logger;
+        public LearnService(GraspItEzContext dbContext, IMapper mapper, ILearnLogicService learnLogicService, ILogger<LearnService> logger)
         {
             _dbContext = dbContext;
             _mapper = mapper;
             _learnLogicService = learnLogicService;
+            _logger = logger;
         }
         
         public IEnumerable<QuestionDto> StartLearn(int id)
@@ -103,6 +105,7 @@ namespace GraspItEz.Services
                 question.DefinitionStatus = 0;
             }
             _dbContext.SaveChanges();
+            _logger.LogInformation($"Study set with id: {id} has been reset");
         }
         
     }
