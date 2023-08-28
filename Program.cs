@@ -20,8 +20,7 @@ builder.Services.AddDbContext<GraspItEzContext>(options => options.UseSqlServer(
 builder.Services.AddScoped<GraspItEzSeeder>();
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.AddScoped<IStudySetsService, StudySetsService>();
-builder.Services.AddScoped<ILearnService, LearnService>();
-builder.Services.AddScoped<ILearnLogicService, LearnLogicService>();
+
 
 
 var app = builder.Build();

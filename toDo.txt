@@ -1,5 +1,0 @@
-nie dzia³a logika z endpointu roundEnd
-kody odpowiedzi do poprawki
-Obs³uga wyj¹tków, np. z³e dane albo not found 
-dodanie logera
- dodanie u¿ytkowników

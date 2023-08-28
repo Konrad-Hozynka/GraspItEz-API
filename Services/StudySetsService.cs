@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Reflection.Metadata.Ecma335;
+using AutoMapper;
 using GraspItEz.Database;
 using GraspItEz.Models;
 using Microsoft.EntityFrameworkCore;
@@ -16,15 +17,15 @@ namespace GraspItEz.Services
     }
     public class StudySetsService : IStudySetsService
     {
-        public Random rnd = new Random();
+       // public Random rnd = new Random();
         private readonly GraspItEzContext _dbContext;
         private readonly IMapper _mapper;
-        private readonly ILearnLogicService _learnLogicService;
-        public StudySetsService(GraspItEzContext dbContext, IMapper mapper, ILearnLogicService learnLogicService)
+        
+        public StudySetsService(GraspItEzContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
             _mapper = mapper;
-            _learnLogicService = learnLogicService;
+            
         }
 
         public IEnumerable<StudySetHeadsDto> GetStudySetsHeder()
@@ -52,6 +53,10 @@ namespace GraspItEz.Services
         }
         public int CreateStudySet(CreateStudySetDto dto)
         {
+           /* if (!ModelState.IsValid)
+            {
+                return Bad
+            }*/
             var studySet = _mapper.Map<StudySet>(dto);
             studySet.Progress = 0;
             studySet.Count = studySet.Questions.Count;
@@ -78,55 +83,6 @@ namespace GraspItEz.Services
         }
         public bool UpdateStudySet(UpdateStudySetDto Dto)
         {
-            var studySet = _dbContext.StudySets
-                .Include(s => s.Questions)
-                .FirstOrDefault(s => s.Id == Dto.Id);
-            if (studySet is null) return false;
-            // dodaje i edytuje słówka na wzór tych z dto
-            foreach (var item in Dto.Questions)
-            {
-                var question = _dbContext.Questions
-                    .FirstOrDefault(q => q.Id == item.Id);
-                if (question is null)
-                {
-                    Question newQuestion = new Question();
-                    newQuestion.IsActive = false;
-                    newQuestion.IsLearned = false;
-                    newQuestion.Quest = item.Quest;
-                    newQuestion.QuestStatus = 0;
-                    newQuestion.DefinitionStatus = 0;
-                    newQuestion.Definition = item.Definition;
-                    newQuestion.StudySetId = Dto.Id;
-                    studySet.Questions.Add(newQuestion);
-                    _dbContext.SaveChanges();
-                }
-                else
-                {
-                    question.Quest = item.Quest;
-                    question.Definition =item.Definition;
-                    _dbContext.SaveChanges();
-                }
-                
-            }
-            // usuwa wszystkie słówka które nie znajdują się w Dto
-            foreach (var item in studySet.Questions.ToList()) 
-            {
-                var question = Dto.Questions
-                      .FirstOrDefault(q => q.Id == item.Id);
-                if (question is null)
-                {
-                    studySet.Questions.Remove(item);
-                    _dbContext.SaveChanges();
-                }
-
-            }
-            studySet.Name = Dto.Name;
-            studySet.Count = studySet.Questions.Count;
-            _learnLogicService.SetProgress(Dto.Id);
-            studySet.Description = Dto.Description;
-            studySet.LastUsed = Dto.LastUsed;
-            _dbContext.SaveChanges();
-
             return true;
         }
 
