@@ -46,7 +46,7 @@ namespace GraspItEz.Services
         {
             var studySet = _dbContext.StudySets
                 .Include(s => s.Questions)
-                .FirstOrDefault(s => s.Id == id);
+                .FirstOrDefault(s => s.StudySetId == id);
                 
             var studySetsDto = _mapper.Map<StudySetDto>(studySet);
             return studySetsDto;
@@ -66,13 +66,13 @@ namespace GraspItEz.Services
             }
             _dbContext.StudySets .Add(studySet);
             _dbContext.SaveChanges();
-            return studySet.Id;
+            return studySet.StudySetId;
         }
         public bool DeleteStudySet(int id)
         {
             var studySet = _dbContext.StudySets
                 .Include(s => s.Questions)
-                .FirstOrDefault(s => s.Id == id);
+                .FirstOrDefault(s => s.StudySetId == id);
             if (studySet is null) return false;
             _dbContext.StudySets.Remove(studySet);
             _dbContext.SaveChanges ();
@@ -83,26 +83,19 @@ namespace GraspItEz.Services
             var studySetDto = _mapper.Map<StudySet>(dto);
             var studySet = _dbContext.StudySets
                 .Include(s => s.Questions)
-                .FirstOrDefault(s => s.Id == dto.Id);
+                .FirstOrDefault(s => s.StudySetId == dto.StudySetId);
             if (studySet is null) return false;
             studySet.Questions.Clear();
-            studySet.ActiveQuestions.Clear();
-            studySet.LernedQuestions.Clear();
+            
             foreach (var question in studySetDto.Questions)
             {
                 studySet.Questions.Add(question);
             }
-            foreach (var question in studySetDto.ActiveQuestions)
-            {
-                studySet.ActiveQuestions.Add(question);
-            }
-            foreach (var question in studySetDto.LernedQuestions)
-            {
-                studySet.LernedQuestions.Add(question);
-            }
 
 
-            studySet.Count = studySet.Questions.Count + studySet.ActiveQuestions.Count + studySet.LernedQuestions.Count;
+
+
+            studySet.Count = studySet.Questions.Count;
             //create function to set progress
             studySet.LastUsed = DateTime.Now;
             studySet.Created = studySetDto.Created;

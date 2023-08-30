@@ -4,7 +4,7 @@ namespace GraspItEz.Database
 {
     public class StudySet
     {
-        public int Id { get; set; }
+        public int StudySetId { get; set; }
         public int Count { get; set; }
         public int Progress { get; set; }
         public string Name { get; set; }
@@ -12,8 +12,7 @@ namespace GraspItEz.Database
         public DateTime Created { get; set; }
         public DateTime LastUsed{ get; set; }
         public virtual List<Question> Questions { get; set; }
-        public virtual List<Question> ActiveQuestions { get; set; }
-        public virtual List<Question> LernedQuestions { get; set; }
+        
 
     }
 

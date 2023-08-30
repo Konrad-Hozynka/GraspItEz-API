@@ -9,9 +9,11 @@ namespace GraspItEz.Database
         }
         public DbSet<StudySet> StudySets { get; set; }
         public DbSet<Question> Questions { get; set; }
+        public DbSet<QuestionStatus> QuestionStatuses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+           
             modelBuilder.Entity<StudySet>()
                 .Property(s => s.Count)
                 .IsRequired();

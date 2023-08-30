@@ -17,7 +17,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<GraspItEzContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection")));
-builder.Services.AddScoped<GraspItEzSeeder>();
+
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.AddScoped<IStudySetsService, StudySetsService>();
 
@@ -26,8 +26,7 @@ builder.Services.AddScoped<IStudySetsService, StudySetsService>();
 var app = builder.Build();
 
 var scope = app.Services.CreateScope();
-var seeder = scope.ServiceProvider.GetRequiredService<GraspItEzSeeder>();
-seeder.Seed();
+
 
 // Configure the HTTP request pipeline.
 
@@ -35,7 +34,7 @@ seeder.Seed();
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Grasp it ez");
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Grasp it easy");
     });
 
 
