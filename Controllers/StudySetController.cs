@@ -22,14 +22,14 @@ namespace GraspItEz.Controllers
         [HttpGet("last-used")]
         public ActionResult<IEnumerable<StudySetHeadsDto>> GetToHomePage()
         {
-            var studySetsHead = _studySetsService.GetStudySetsHeder();
-            return Ok(studySetsHead);
+            var studySets = _studySetsService.GetLastUsedStudySets();
+            return Ok(studySets);
         }
         [HttpGet("all")]
         public ActionResult<IEnumerable<StudySetHeadsDto>> GetAll()
         {
-            var studySetsHead = _studySetsService.GetAllStudySets();
-            return Ok(studySetsHead);
+            var studySets = _studySetsService.GetAllStudySets();
+            return Ok(studySets);
         }
         [HttpGet("{id}")]
         public ActionResult<StudySetDto> Get([FromRoute] int id)
@@ -54,8 +54,8 @@ namespace GraspItEz.Controllers
         [HttpPut("update")]
         public ActionResult Update([FromBody] UpdateStudySetDto Dto)
         {
-            bool isUpdated = _studySetsService.UpdateStudySet(Dto);
-            if (!isUpdated) return NotFound();
+           if( !_studySetsService.UpdateStudySet(Dto)) return BadRequest();
+            
             return Ok();
         }
     }

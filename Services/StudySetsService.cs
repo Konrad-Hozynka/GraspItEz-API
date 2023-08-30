@@ -8,7 +8,7 @@ namespace GraspItEz.Services
 {
     public interface IStudySetsService
     {
-        public IEnumerable<StudySetHeadsDto> GetStudySetsHeder();
+        public IEnumerable<StudySetHeadsDto> GetLastUsedStudySets();
         public IEnumerable<StudySetHeadsDto> GetAllStudySets();
         public StudySetDto GetById(int id);
         public int CreateStudySet(CreateStudySetDto dto);
@@ -28,12 +28,12 @@ namespace GraspItEz.Services
             
         }
 
-        public IEnumerable<StudySetHeadsDto> GetStudySetsHeder()
+        public IEnumerable<StudySetHeadsDto> GetLastUsedStudySets()
         {
             var studySet = _dbContext.StudySets.ToList();
             studySet.Sort((x, y) => x.LastUsed.CompareTo(y.LastUsed));
-            var studySetsHead = _mapper.Map<List<StudySetHeadsDto>>(studySet.Take(6));
-            return studySetsHead;
+            var lastUsedStudySets = _mapper.Map<List<StudySetHeadsDto>>(studySet.Take(6));
+            return lastUsedStudySets;
         }
         public IEnumerable<StudySetHeadsDto> GetAllStudySets()
         {
@@ -53,19 +53,16 @@ namespace GraspItEz.Services
         }
         public int CreateStudySet(CreateStudySetDto dto)
         {
-           /* if (!ModelState.IsValid)
-            {
-                return Bad
-            }*/
+            
             var studySet = _mapper.Map<StudySet>(dto);
             studySet.Progress = 0;
             studySet.Count = studySet.Questions.Count;
+            studySet.Created = DateTime.Now;
+            studySet.LastUsed = DateTime.Now;
             foreach (var question in studySet.Questions) 
             {
                 question.QuestStatus = 0;
                 question.DefinitionStatus = 0;
-                question.IsActive = false;
-                question.IsLearned = false;
             }
             _dbContext.StudySets .Add(studySet);
             _dbContext.SaveChanges();
@@ -81,9 +78,41 @@ namespace GraspItEz.Services
             _dbContext.SaveChanges ();
             return true;
         }
-        public bool UpdateStudySet(UpdateStudySetDto Dto)
+        public bool UpdateStudySet(UpdateStudySetDto dto)
         {
+            var studySetDto = _mapper.Map<StudySet>(dto);
+            var studySet = _dbContext.StudySets
+                .Include(s => s.Questions)
+                .FirstOrDefault(s => s.Id == dto.Id);
+            if (studySet is null) return false;
+            studySet.Questions.Clear();
+            studySet.ActiveQuestions.Clear();
+            studySet.LernedQuestions.Clear();
+            foreach (var question in studySetDto.Questions)
+            {
+                studySet.Questions.Add(question);
+            }
+            foreach (var question in studySetDto.ActiveQuestions)
+            {
+                studySet.ActiveQuestions.Add(question);
+            }
+            foreach (var question in studySetDto.LernedQuestions)
+            {
+                studySet.LernedQuestions.Add(question);
+            }
+
+
+            studySet.Count = studySet.Questions.Count + studySet.ActiveQuestions.Count + studySet.LernedQuestions.Count;
+            //create function to set progress
+            studySet.LastUsed = DateTime.Now;
+            studySet.Created = studySetDto.Created;
+            studySet.Name = studySetDto.Name;
+            studySet.Description = studySetDto.Description;
+
             return true;
+            
+
+
         }
 
 
