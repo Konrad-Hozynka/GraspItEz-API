@@ -8,15 +8,16 @@ namespace GraspItEz.Database
 
         }
         public DbSet<StudySet> StudySets { get; set; }
-        public DbSet<Question> Questions { get; set; }
-        public DbSet<QuestionStatus> QuestionStatuses { get; set; }
+        public DbSet<Query> Querist { get; set; }
+        public DbSet<QueryStatus> QueryStatuses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-           
+
             modelBuilder.Entity<StudySet>()
                 .Property(s => s.Count)
                 .IsRequired();
+
             modelBuilder.Entity<StudySet>()
                 .Property(s => s.Name)
                 .IsRequired()
@@ -24,15 +25,38 @@ namespace GraspItEz.Database
             modelBuilder.Entity<StudySet>()
                 .Property(s => s.Description)
                 .HasMaxLength(500);
+            modelBuilder.Entity<StudySet>()
+                .Property(s => s.Created)
+                .IsRequired();
+            modelBuilder.Entity<StudySet>()
+                .Property(s => s.Progress)
+                .IsRequired();
+            modelBuilder.Entity<StudySet>()
+                .Property(s => s.LastUsed)
+                .IsRequired();
            
-            modelBuilder.Entity<Question>()
-                .Property(s => s.Quest)
+            modelBuilder.Entity<Query>()
+                .Property(s => s.Question)
                 .IsRequired()
-                .HasMaxLength(150);
-            modelBuilder.Entity<Question>()
-               .Property(s => s.Definition)
+                .HasMaxLength(200);
+            modelBuilder.Entity<Query>()
+               .Property(s => s.Answer)
                .IsRequired()
-               .HasMaxLength(150);
+               .HasMaxLength(200);
+         
+            modelBuilder.Entity<Query>()
+                .Property(s => s.QuestionStatus)
+                .IsRequired();
+            modelBuilder.Entity<Query>()
+                .Property (s => s.AnswerStatus)
+                .IsRequired();
+            modelBuilder.Entity<QueryStatus>()
+                .Property(s => s.QueryStatusId)
+                .IsRequired();
+           
+            modelBuilder.Entity<QueryStatus>()
+                .Property(s => s.QueryStatusValue)
+                .IsRequired();
 
         }
    

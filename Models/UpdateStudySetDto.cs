@@ -9,7 +9,7 @@ namespace GraspItEz.Models
         public string? Description { get; set; }
         public DateTime Created { get; set; }
         public virtual List<QuestionDto> Questions { get; set; }
-        public virtual List<Question> ActiveQuestions { get; set; }
-        public virtual List<Question> LernedQuestions { get; set; }
+        public virtual List<Query> ActiveQuestions { get; set; }
+        public virtual List<Query> LernedQuestions { get; set; }
     }
 }

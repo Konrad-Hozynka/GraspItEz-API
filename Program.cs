@@ -20,12 +20,15 @@ builder.Services.AddDbContext<GraspItEzContext>(options => options.UseSqlServer(
 
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.AddScoped<IStudySetsService, StudySetsService>();
+builder.Services.AddScoped<Seeder>();
 
 
 
 var app = builder.Build();
 
 var scope = app.Services.CreateScope();
+var seeder = scope.ServiceProvider.GetService<Seeder>();
+seeder.Seed();
 
 
 // Configure the HTTP request pipeline.

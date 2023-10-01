@@ -45,7 +45,7 @@ namespace GraspItEz.Services
         public StudySetDto GetById(int id)
         {
             var studySet = _dbContext.StudySets
-                .Include(s => s.Questions)
+                .Include(s => s.Querist)
                 .FirstOrDefault(s => s.StudySetId == id);
                 
             var studySetsDto = _mapper.Map<StudySetDto>(studySet);
@@ -56,13 +56,13 @@ namespace GraspItEz.Services
             
             var studySet = _mapper.Map<StudySet>(dto);
             studySet.Progress = 0;
-            studySet.Count = studySet.Questions.Count;
+            studySet.Count = studySet.Querist.Count;
             studySet.Created = DateTime.Now;
             studySet.LastUsed = DateTime.Now;
-            foreach (var question in studySet.Questions) 
+            foreach (var question in studySet.Querist) 
             {
-                question.QuestStatus = 0;
-                question.DefinitionStatus = 0;
+                question.QuestionStatus = 0;
+                question.AnswerStatus = 0;
             }
             _dbContext.StudySets .Add(studySet);
             _dbContext.SaveChanges();
@@ -71,7 +71,7 @@ namespace GraspItEz.Services
         public bool DeleteStudySet(int id)
         {
             var studySet = _dbContext.StudySets
-                .Include(s => s.Questions)
+                .Include(s => s.Querist)
                 .FirstOrDefault(s => s.StudySetId == id);
             if (studySet is null) return false;
             _dbContext.StudySets.Remove(studySet);
@@ -82,20 +82,20 @@ namespace GraspItEz.Services
         {
             var studySetDto = _mapper.Map<StudySet>(dto);
             var studySet = _dbContext.StudySets
-                .Include(s => s.Questions)
+                .Include(s => s.Querist)
                 .FirstOrDefault(s => s.StudySetId == dto.StudySetId);
             if (studySet is null) return false;
-            studySet.Questions.Clear();
+            studySet.Querist.Clear();
             
-            foreach (var question in studySetDto.Questions)
+            foreach (var question in studySetDto.Querist)
             {
-                studySet.Questions.Add(question);
+                studySet.Querist.Add(question);
             }
 
 
 
 
-            studySet.Count = studySet.Questions.Count;
+            studySet.Count = studySet.Querist.Count;
             //create function to set progress
             studySet.LastUsed = DateTime.Now;
             studySet.Created = studySetDto.Created;

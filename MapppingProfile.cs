@@ -8,10 +8,10 @@ namespace GraspItEz
     {   public MapppingProfile() 
         {
             CreateMap<StudySet, StudySetHeadsDto>();
-            CreateMap<Question, QuestionDto>();
+            CreateMap<Query, QuestionDto>();
             CreateMap<StudySet, StudySetDto>();
             CreateMap<CreateStudySetDto, StudySet>();
-            CreateMap<QuestionDto, Question>();
+            CreateMap<QuestionDto, Query>();
         }
 
     }

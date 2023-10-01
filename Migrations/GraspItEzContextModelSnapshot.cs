@@ -22,58 +22,58 @@ namespace GraspItEz.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("GraspItEz.Database.Question", b =>
+            modelBuilder.Entity("GraspItEz.Database.Query", b =>
                 {
-                    b.Property<int>("QuestionId")
+                    b.Property<int>("QueryId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("QuestionId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("QueryId"));
 
-                    b.Property<string>("Definition")
+                    b.Property<string>("Answer")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
-                    b.Property<int>("DefinitionStatus")
+                    b.Property<int>("AnswerStatus")
                         .HasColumnType("int");
 
-                    b.Property<string>("Quest")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
-
-                    b.Property<int>("QuestStatus")
+                    b.Property<int>("QueryStatusId")
                         .HasColumnType("int");
 
-                    b.Property<int>("QuestionStatusId")
+                    b.Property<string>("Question")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int>("QuestionStatus")
                         .HasColumnType("int");
 
                     b.Property<int>("StudySetId")
                         .HasColumnType("int");
 
-                    b.HasKey("QuestionId");
+                    b.HasKey("QueryId");
 
                     b.HasIndex("StudySetId");
 
-                    b.ToTable("Questions");
+                    b.ToTable("Querist");
                 });
 
-            modelBuilder.Entity("GraspItEz.Database.QuestionStatus", b =>
+            modelBuilder.Entity("GraspItEz.Database.QueryStatus", b =>
                 {
-                    b.Property<int>("QuestionStatusId")
+                    b.Property<int>("QueryStatusId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("QuestionStatusId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("QueryStatusId"));
 
-                    b.Property<string>("QuestionStatusValue")
+                    b.Property<string>("QueryStatusValue")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("QuestionStatusId");
+                    b.HasKey("QueryStatusId");
 
-                    b.ToTable("QuestionStatuses");
+                    b.ToTable("QueryStatuses");
                 });
 
             modelBuilder.Entity("GraspItEz.Database.StudySet", b =>
@@ -110,10 +110,10 @@ namespace GraspItEz.Migrations
                     b.ToTable("StudySets");
                 });
 
-            modelBuilder.Entity("GraspItEz.Database.Question", b =>
+            modelBuilder.Entity("GraspItEz.Database.Query", b =>
                 {
                     b.HasOne("GraspItEz.Database.StudySet", null)
-                        .WithMany("Questions")
+                        .WithMany("Querist")
                         .HasForeignKey("StudySetId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -121,7 +121,7 @@ namespace GraspItEz.Migrations
 
             modelBuilder.Entity("GraspItEz.Database.StudySet", b =>
                 {
-                    b.Navigation("Questions");
+                    b.Navigation("Querist");
                 });
 #pragma warning restore 612, 618
         }

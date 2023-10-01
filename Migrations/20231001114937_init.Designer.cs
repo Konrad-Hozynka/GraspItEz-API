@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GraspItEz.Migrations
 {
     [DbContext(typeof(GraspItEzContext))]
-    [Migration("20230418121339_test")]
-    partial class test
+    [Migration("20231001114937_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,47 +25,67 @@ namespace GraspItEz.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("GraspItEz.Database.Question", b =>
+            modelBuilder.Entity("GraspItEz.Database.Query", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("QueryId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("QueryId"));
 
-                    b.Property<string>("Definition")
+                    b.Property<string>("Answer")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
-                    b.Property<int>("DefinitionStatus")
+                    b.Property<int>("AnswerStatus")
                         .HasColumnType("int");
 
-                    b.Property<int>("QestStatus")
+                    b.Property<int>("QueryStatusId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Quest")
+                    b.Property<string>("Question")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int>("QuestionStatus")
+                        .HasColumnType("int");
 
                     b.Property<int>("StudySetId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("QueryId");
 
                     b.HasIndex("StudySetId");
 
                     b.ToTable("Questions");
                 });
 
-            modelBuilder.Entity("GraspItEz.Database.StudySet", b =>
+            modelBuilder.Entity("GraspItEz.Database.QueryStatus", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("QueryStatusId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("QueryStatusId"));
+
+                    b.Property<string>("QueryStatusValue")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("QueryStatusId");
+
+                    b.ToTable("QuestionStatuses");
+                });
+
+            modelBuilder.Entity("GraspItEz.Database.StudySet", b =>
+                {
+                    b.Property<int>("StudySetId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StudySetId"));
 
                     b.Property<int>("Count")
                         .HasColumnType("int");
@@ -85,18 +105,18 @@ namespace GraspItEz.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("Progres")
+                    b.Property<int>("Progress")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("StudySetId");
 
                     b.ToTable("StudySets");
                 });
 
-            modelBuilder.Entity("GraspItEz.Database.Question", b =>
+            modelBuilder.Entity("GraspItEz.Database.Query", b =>
                 {
                     b.HasOne("GraspItEz.Database.StudySet", null)
-                        .WithMany("Questions")
+                        .WithMany("Querist")
                         .HasForeignKey("StudySetId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -104,7 +124,7 @@ namespace GraspItEz.Migrations
 
             modelBuilder.Entity("GraspItEz.Database.StudySet", b =>
                 {
-                    b.Navigation("Questions");
+                    b.Navigation("Querist");
                 });
 #pragma warning restore 612, 618
         }
