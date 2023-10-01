@@ -1,5 +1,6 @@
 ﻿using GraspItEz.Database;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace GraspItEz
 {
@@ -19,7 +20,36 @@ namespace GraspItEz
                 {
                     _dbContext.Database.Migrate();
                 }
+                if (!_dbContext.QueryStatuses.Any())
+                {
+                    var QueryStatues = GetQueryStatus();
+                    _dbContext.AddRange(QueryStatues);
+                    _dbContext.SaveChanges();
+
+                    
+                }
             }
+        }
+        private IEnumerable<QueryStatus> GetQueryStatus()
+        {
+            var queryStatuses = new List<QueryStatus>()
+                        {
+                            new QueryStatus()
+                            {
+                                
+                                QueryStatusValue = "Not Started",
+                            },
+                            new QueryStatus()
+                            {
+                                
+                                QueryStatusValue = "In progress",
+                            },
+                            new QueryStatus()
+                            {
+                                QueryStatusValue = "Learned",
+                            }
+                        };
+            return queryStatuses;
         }
     }
 }
