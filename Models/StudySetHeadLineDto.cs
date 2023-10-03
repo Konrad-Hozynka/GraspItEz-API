@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using GraspItEz.Database;
 
 namespace GraspItEz.Models
 {
-    public class StudySetDto
+    public class StudySetHeadLineDto
     {
         public int StudySetId { get; set; }
         [Required]
@@ -15,12 +14,7 @@ namespace GraspItEz.Models
         [MaxLength(50)]
         public string Name { get; set; }
         [MaxLength(500)]
-        public string? Description { get; set; }
-        [Required]
-        public DateTime Created { get; set; }
-        [Required]
-        public DateTime LastUsed { get; set; }
-        public virtual List<QueryDto> Questions { get; set; }
-       
+        public string Description { get; set;}
+
     }
 }

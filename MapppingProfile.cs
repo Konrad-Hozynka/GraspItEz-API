@@ -7,11 +7,11 @@ namespace GraspItEz
     public class MapppingProfile : Profile
     {   public MapppingProfile() 
         {
-            CreateMap<StudySet, StudySetHeadsDto>();
-            CreateMap<Query, QuestionDto>();
+            CreateMap<StudySet, StudySetHeadLineDto>();
+            CreateMap<Query, QueryDto>();
             CreateMap<StudySet, StudySetDto>();
             CreateMap<CreateStudySetDto, StudySet>();
-            CreateMap<QuestionDto, Query>();
+            CreateMap<QueryDto, Query>();
         }
 
     }

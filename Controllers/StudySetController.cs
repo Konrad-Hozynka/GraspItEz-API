@@ -20,13 +20,13 @@ namespace GraspItEz.Controllers
             _studySetsService = studySetsService;
         }
         [HttpGet("last-used")]
-        public ActionResult<IEnumerable<StudySetHeadsDto>> GetToHomePage()
+        public ActionResult<IEnumerable<StudySetHeadLineDto>> GetToHomePage()
         {
             var studySets = _studySetsService.GetLastUsedStudySets();
             return Ok(studySets);
         }
         [HttpGet("all")]
-        public ActionResult<IEnumerable<StudySetHeadsDto>> GetAll()
+        public ActionResult<IEnumerable<StudySetHeadLineDto>> GetAll()
         {
             var studySets = _studySetsService.GetAllStudySets();
             return Ok(studySets);

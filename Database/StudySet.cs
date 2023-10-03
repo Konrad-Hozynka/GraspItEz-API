@@ -12,6 +12,7 @@ namespace GraspItEz.Database
         [Required]
         public int Count { get; set; }
         [Required]
+        [Range(0,100)]
         public int Progress { get; set; }
         [Required]
         [MaxLength(50)]
