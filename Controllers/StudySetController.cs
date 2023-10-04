@@ -41,6 +41,10 @@ namespace GraspItEz.Controllers
         [HttpPost("create")]
         public ActionResult Create([FromBody] CreateStudySetDto dto)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
            int id = _studySetsService.CreateStudySet(dto);
             return Created($"/StudySet/{id}", null);
         }
@@ -54,7 +58,11 @@ namespace GraspItEz.Controllers
         [HttpPut("update")]
         public ActionResult Update([FromBody] UpdateStudySetDto Dto)
         {
-           if( !_studySetsService.UpdateStudySet(Dto)) return BadRequest();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            if ( !_studySetsService.UpdateStudySet(Dto)) return BadRequest();
             
             return Ok();
         }

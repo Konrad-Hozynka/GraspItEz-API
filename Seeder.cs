@@ -30,7 +30,7 @@ namespace GraspItEz
                 }
             }
         }
-        private IEnumerable<QueryStatus> GetQueryStatus()
+        private static IEnumerable<QueryStatus> GetQueryStatus()
         {
             var queryStatuses = new List<QueryStatus>()
                         {

@@ -15,7 +15,7 @@ namespace GraspItEz.Models
         [MaxLength(50)]
         public string Name { get; set; }
         [MaxLength(500)]
-        public string? Description { get; set; }
+        public string Description { get; set; }
         [Required]
         public DateTime Created { get; set; }
         [Required]

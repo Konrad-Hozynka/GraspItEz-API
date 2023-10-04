@@ -24,11 +24,11 @@ namespace GraspItEz.Services
             {
                 if (question.QueryStatusId == 2)
                 {
-                    sum = sum + 2;
+                    sum += 2;
                 }
                 else if (question.QuestionStatus == 2 || question.AnswerStatus == 2)
                 {
-                    sum = sum + 1;
+                    sum++;
                 }
             }
             return sum / pointsPool * 100;
