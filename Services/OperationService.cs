@@ -18,6 +18,7 @@ namespace GraspItEz.Services
         }
         public int Progress(List <Query> querist)
         {
+            if (querist == null) return 0;
             int pointsPool = querist.Count * 2;
             int sum = 0;
             foreach (Query question in querist) 
