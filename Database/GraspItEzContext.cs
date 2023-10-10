@@ -5,7 +5,7 @@ namespace GraspItEz.Database
     {
         public GraspItEzContext(DbContextOptions<GraspItEzContext> options) : base(options) 
         {
-
+            
         }
         public DbSet<StudySet> StudySets { get; set; }
         public DbSet<Query> Querist { get; set; }

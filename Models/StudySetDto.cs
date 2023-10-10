@@ -20,7 +20,7 @@ namespace GraspItEz.Models
         public DateTime Created { get; set; }
         [Required]
         public DateTime LastUsed { get; set; }
-        public virtual List<QueryDto> Questions { get; set; }
+        public virtual List<QueryWithIdDto> Querist { get; set; }
        
     }
 }

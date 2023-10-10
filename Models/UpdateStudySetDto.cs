@@ -7,8 +7,6 @@ namespace GraspItEz.Models
         public int StudySetId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        
-        public virtual List<QueryDto> Questions { get; set; }
-     
+    
     }
 }

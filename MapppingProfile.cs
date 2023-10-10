@@ -12,6 +12,8 @@ namespace GraspItEz
             CreateMap<StudySet, StudySetDto>();
             CreateMap<CreateStudySetDto, StudySet>();
             CreateMap<QueryDto, Query>();
+            CreateMap<QueryWithIdDto, Query>();
+            CreateMap<Query, QueryWithIdDto>();
         }
 
     }

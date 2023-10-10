@@ -10,6 +10,6 @@ namespace GraspItEz.Models
         public string Name { get; set; }
         [MaxLength(500)]
         public string Description { get; set; }
-        public virtual List<QueryDto> Questions { get; set; }
+        public virtual List<QueryDto> Querist { get; set; }
     }
 }
