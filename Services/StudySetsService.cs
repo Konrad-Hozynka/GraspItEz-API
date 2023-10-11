@@ -3,6 +3,7 @@ using AutoMapper;
 using GraspItEz.Database;
 using GraspItEz.Models;
 using Microsoft.EntityFrameworkCore;
+using NLog;
 
 namespace GraspItEz.Services
 {
@@ -17,16 +18,19 @@ namespace GraspItEz.Services
     }
     public class StudySetsService : IStudySetsService
     {
-       // public Random rnd = new Random();
+        private readonly ILogger<StudySetsService> _logger;
+        // public Random rnd = new Random();
         private readonly GraspItEzContext _dbContext;
         private readonly IMapper _mapper;
         private readonly IOperationService _operation;
         
-        public StudySetsService(GraspItEzContext dbContext, IMapper mapper, IOperationService operation)
+        public StudySetsService(GraspItEzContext dbContext, IMapper mapper, IOperationService operation, ILogger<StudySetsService> loger)
         {
             _dbContext = dbContext;
             _mapper = mapper;
             _operation = operation;
+            _logger = loger;
+
         }
 
         public IEnumerable<StudySetHeadLineDto> GetLastUsedStudySets()
@@ -68,6 +72,7 @@ namespace GraspItEz.Services
             }
             _dbContext.StudySets .Add(studySet);
             _dbContext.SaveChanges();
+            _logger.LogInformation("stworzono nowy zasob");
             return studySet.StudySetId;
         }
         public bool DeleteStudySet(int id)

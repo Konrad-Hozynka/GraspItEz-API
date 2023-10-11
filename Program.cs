@@ -8,12 +8,9 @@ using NLog.Web;
 using NLog.Config;
 using NLog.Fluent;
 using NLog.Extensions.Logging;
+using GraspItEz.Middleware;
 
-    
-
-
-
-    var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(args);
     builder.Logging.ClearProviders();
     builder.Logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
     builder.Host.UseNLog();
@@ -38,11 +35,13 @@ using NLog.Extensions.Logging;
     builder.Services.AddScoped<IOperationService, OperationService>();
     builder.Services.AddScoped<IQueryService, QueryService>();
     builder.Services.AddScoped<Seeder>();
+    builder.Services.AddScoped<ErrorHandlingMiddleware>();
 
 
 
     var app = builder.Build();
 
+    app.UseMiddleware<ErrorHandlingMiddleware>();
     var scope = app.Services.CreateScope();
     var seeder = scope.ServiceProvider.GetService<Seeder>();
     seeder.Seed();
@@ -50,7 +49,7 @@ using NLog.Extensions.Logging;
 
     // Configure the HTTP request pipeline.
 
-
+    
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
